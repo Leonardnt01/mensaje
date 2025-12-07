@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mensajes</title>
+  <style>
+    body{
+      margin:0;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      background:#a840e9;
+      font-family:Arial, sans-serif;
+    }
+    .card{
+      background:#ffffff;
+      padding:30px;
+      border-radius:14px;
+      box-shadow:0 8px 24px rgba(0,0,0,.12);
+      text-align:center;
+      width:90%;
+      max-width:600px;
+    }
+    .mensaje{
+      font-size:1.3rem;
+      margin-bottom:20px;
+      color:#333;
+      /* Propiedades de transición para el mensaje */
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out; /* Transición de 0.5 segundos para la opacidad */
+    }
+    .mensaje.oculto {
+      opacity: 0; /* Clase para ocultar el mensaje (inicio de la transición) */
+    }
+    button{
+      padding:10px 18px;
+      font-size:1rem;
+      border:0;
+      border-radius:10px;
+      background:#2b6cb0;
+      color:#fff;
+      cursor:pointer;
+      font-weight:bold;
+      /* Transición para el botón, aunque solo se oculta */
+      transition: opacity 0.5s ease-in-out; 
+    }
+    /* Imagen centrada */
+    .imagen-wrap{
+      display:flex;
+      justify-content:center;
+      width:100%;
+      /* Propiedades de transición para la imagen */
+      opacity: 0; /* Inicialmente invisible */
+      max-height: 0; /* Inicialmente sin altura para que no ocupe espacio */
+      overflow: hidden;
+      transition: opacity 0.8s ease-in-out, max-height 0.8s ease-in-out; 
+    }
+    .imagen-wrap.visible {
+      opacity: 1; /* Para mostrar la imagen */
+      max-height: 400px; /* Suficiente altura para que se muestre */
+      margin-top: 15px; /* Aplicar el margen solo cuando es visible */
+    }
+    .imagen-wrap img{
+      max-width:100%;
+      border-radius:12px;
+      display:block;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="texto" class="mensaje">Hola yadhira jamile xd bueno se que pasaste por un momento incomodo</div>
+
+    <button id="btn-accion">Continuar</button>
+
+    <div id="salida" class="imagen-wrap">
+      <img id="img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQLYmXHX6jHZgTZH3gUGIDCtS2FfcwJvhJUA&s" alt="Imagen" />
+    </div>
+  </div>
+
+  <script>
+    const MENSAJE_1 = 'Hola yadhira jamile xd bueno se que pasaste por un momento incomodo';
+    const MENSAJE_2 = 'Pero bueno queria hacerte este mensaje para hacerte saber que eres una chica increible, el orgullo de tu familia';
+    const MENSAJE_IMG = 'me gusta bajar copas contigo en brawl pero igual no le quita lo divertido cuidate mucho siempre y owo';
+
+    const texto = document.getElementById('texto');
+    const btn = document.getElementById('btn-accion');
+    const salida = document.getElementById('salida');
+
+    let estado = 1;
+
+    // Inicial
+    texto.textContent = MENSAJE_1;
+
+    // Duración de la transición de ocultar (debe coincidir con CSS)
+    const duracionTransicion = 500; 
+
+    btn.addEventListener('click', () => {
+      // 1. Ocultar el texto actual con la transición (añadiendo la clase 'oculto')
+      texto.classList.add('oculto');
+      
+      // 2. Esperar a que termine la transición de ocultar
+      setTimeout(() => {
+        if (estado === 1) {
+          // Vista 2: Cambiar contenido
+          texto.textContent = MENSAJE_2;
+          // Mostrar el nuevo contenido (quitando la clase 'oculto')
+          texto.classList.remove('oculto');
+          estado = 2;
+        } else if (estado === 2) {
+          // Vista final: Cambiar contenido del texto y mostrar imagen
+          texto.textContent = MENSAJE_IMG;
+          texto.classList.remove('oculto'); // Mostrar el texto final
+          
+          // Mostrar la imagen con transición
+          salida.classList.add('visible');
+          
+          // Ocultar el botón con transición
+          btn.style.opacity = '0';
+          setTimeout(() => {
+            btn.style.display = 'none';
+          }, duracionTransicion); // Esperar a que la opacidad llegue a 0 antes de ocultarlo completamente
+        }
+      }, duracionTransicion); // El tiempo de espera debe coincidir con la duración de la transición CSS
+    });
+  </script>
+</body>
+</html>
